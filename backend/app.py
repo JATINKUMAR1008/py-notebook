@@ -14,6 +14,10 @@ kc.start_channels()
 class CellRequest(BaseModel):
     cell: str
 
+@app.get("/")
+async def read_root():
+    return {"Hello": "World"}
+
 @app.post("/execute-cell")
 async def execute_cell(request: CellRequest):
     try:
