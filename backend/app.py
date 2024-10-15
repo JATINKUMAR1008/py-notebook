@@ -38,3 +38,7 @@ async def execute_cell(request: CellRequest):
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
+
+if __name__ == '__main__':
+    import uvicorn
+    uvicorn.run(app)
