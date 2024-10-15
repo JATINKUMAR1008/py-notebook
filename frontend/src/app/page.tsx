@@ -140,8 +140,8 @@ export default function Home() {
       lineNumbersMinChars: 3,
       padding: { top: 8, bottom: 8 },
     });
-
-    editor.onKeyDown((e: any) => handleKeyDown(e, id));
+    //@ts-expect-error keybindin unspecified
+    editor.onKeyDown((e) => handleKeyDown(e, id));
   };
 
   useEffect(() => {
@@ -272,7 +272,14 @@ export default function Home() {
       });
 
       monaco.languages.registerCompletionItemProvider("python", {
-        provideCompletionItems: () => {
+        provideCompletionItems: (model, position) => {
+          const word = model.getWordUntilPosition(position);
+          const range = {
+            startLineNumber: position.lineNumber,
+            endLineNumber: position.lineNumber,
+            startColumn: word.startColumn,
+            endColumn: word.endColumn,
+          };
           const suggestions = [
             {
               label: "print",
@@ -281,6 +288,7 @@ export default function Home() {
               insertTextRules:
                 monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
               documentation: "Print objects to the text stream file",
+              range,
             },
             {
               label: "def",
@@ -290,6 +298,7 @@ export default function Home() {
               insertTextRules:
                 monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
               documentation: "Define a new function",
+              range,
             },
             {
               label: "for",
@@ -298,6 +307,7 @@ export default function Home() {
               insertTextRules:
                 monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
               documentation: "For loop",
+              range,
             },
             {
               label: "if",
@@ -306,6 +316,7 @@ export default function Home() {
               insertTextRules:
                 monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
               documentation: "If statement",
+              range,
             },
           ];
           return { suggestions };
