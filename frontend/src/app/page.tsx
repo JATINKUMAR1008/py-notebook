@@ -94,7 +94,8 @@ export default function Home() {
                 ...c,
                 output: {
                   type: "error",
-                  content: String(error) || "An error occurred during execution."
+                  content:
+                    String(error) || "An error occurred during execution.",
                 },
               }
             : c
@@ -140,7 +141,7 @@ export default function Home() {
       padding: { top: 8, bottom: 8 },
     });
 
-    editor.onKeyDown((e: editor.IKeyboardEvent) => handleKeyDown(e, id));
+    editor.onKeyDown((e: any) => handleKeyDown(e, id));
   };
 
   useEffect(() => {
